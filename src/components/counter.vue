@@ -20,13 +20,14 @@ const store = useGameStore();
 
 watch(() => store.gameStart, (newVal) => {
   if (newVal) {
-    store.countDown = 60;
+    store.countDown = 20;
     store.timer = setInterval(() => {
       store.countDown--;
       if (store.countDown === 0) {
         clearInterval(store.timer);
         store.gameStart = false
         store.gameOver = true;
+        store.endGame();
       }
     }, 1000)
   } else {

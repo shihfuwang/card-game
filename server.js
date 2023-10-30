@@ -39,6 +39,10 @@ app.post('/clickCard', (req, res) => {
   });
 })
 
+app.get('/endGame', (req, res) => {
+  res.json(gameState.cardOrder);
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
