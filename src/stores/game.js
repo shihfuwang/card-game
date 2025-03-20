@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 
+const API_BASE_URL = "https://card-game-vwhp.onrender.com"; // 你的 Render 後端網址
+
 export const useGameStore = defineStore({
   id: 'gameStore',
   state: () => {
@@ -45,11 +47,16 @@ export const useGameStore = defineStore({
   },
   actions: {
     start() {
-      fetch('http://localhost:3030/start', {
+      // fetch('http://localhost:3030/start', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({ cardOrder: this.cardOrder })
+      // })
+      fetch(`${API_BASE_URL}/start`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cardOrder: this.cardOrder })
       })
         .then(response => response.json())
@@ -73,13 +80,18 @@ export const useGameStore = defineStore({
     async clickCard(index) {
       if (this.gameStart && !this.cardOrder[index].isFront && this.countDown !== 0) {
         try {
-          const response = await fetch('http://localhost:3030/clickCard', {
+          // const response = await fetch('http://localhost:3030/clickCard', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json'
+          //   },
+          //   body: JSON.stringify({ index })
+          // });
+          const response = await fetch(`${API_BASE_URL}/clickCard`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ index })
-          });
+            headers: { 'Content-Type': 'application/json' }
+           });
+
           const data = await response.json();
 
           if (this.flippedCards.length < 2) {
@@ -138,7 +150,8 @@ export const useGameStore = defineStore({
       this.cardOrder.forEach(card => {
         if (!card.matched) {
           try {
-            fetch('http://localhost:3030/endGame')
+            // fetch('http://localhost:3030/endGame')
+              fetch(`${API_BASE_URL}/endGame`)
               .then(response => response.json())
               .then(data => {
                 this.cardOrder.forEach((card, index) => {
