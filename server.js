@@ -1,10 +1,20 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+
 const app = express();
-const port = 3030;
+const port = process.env.PORT || 3030; // 讓 Render 使用動態 PORT
 
 app.use(express.json());
 app.use(cors());
+
+// 提供 Vue 前端的靜態檔案
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// 確保 Vue 前端的路由可以正確運作
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 let gameState = {
   cardOrder: [],
