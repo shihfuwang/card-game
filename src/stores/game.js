@@ -81,16 +81,13 @@ export const useGameStore = defineStore({
       if (this.gameStart && !this.cardOrder[index].isFront && this.countDown !== 0) {
         try {
           // const response = await fetch('http://localhost:3030/clickCard', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json'
-          //   },
-          //   body: JSON.stringify({ index })
-          // });
           const response = await fetch(`${API_BASE_URL}/clickCard`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-           });
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ index })
+          });
 
           const data = await response.json();
 
